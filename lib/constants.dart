@@ -3,15 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/controllers/auth_controller.dart';
-import 'package:tiktok_clone/views/screens/home_screen.dart';
+import 'package:tiktok_clone/views/screens/profile_screen.dart';
+import 'package:tiktok_clone/views/screens/search_screen.dart';
+import 'package:tiktok_clone/views/screens/video_play_screen.dart';
 import 'package:tiktok_clone/views/screens/pages/add_video_screen.dart';
 
-const pages = [
-  HomeScreen(),
-  Text('Search Screen'),
+List pages = [
+  VideoPlayScreen(),
+  SearchScreen(),
   AddVideoScreen(),
   Text('Messages Screen'),
-  Text('Profile Screen'),
+  ProfileScreen(uid: authController.user.uid),
 ];
 
 const backgroundColor = Colors.black;

@@ -6,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constants.dart';
-import 'package:tiktok_clone/views/screens/home_screen.dart';
+import 'package:tiktok_clone/views/screens/video_play_screen.dart';
 import 'package:tiktok_clone/views/screens/auth/login_screen.dart';
+
+import '../views/screens/home_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -15,6 +17,7 @@ class AuthController extends GetxController {
   late Rx<File?> _pickedImage;
 
   File? get profilePhoto => _pickedImage.value;
+  User get user => _user.value!;
   Uint8List? image;
 
   @override
@@ -53,7 +56,6 @@ class AuthController extends GetxController {
         .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
     UploadTask uploadTask = ref.putFile(image);
-    print(uploadTask.snapshot);
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
@@ -103,7 +105,6 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        print('success');
       } else {
         Get.snackbar(
           'Error Logging in',
@@ -113,5 +114,9 @@ class AuthController extends GetxController {
     } catch (e) {
       Get.snackbar('Error logging in', e.toString());
     }
+  }
+
+  void signOut() async {
+    await firebaseAuth.signOut();
   }
 }
